@@ -1,5 +1,6 @@
 const covid19ImpactEstimator = (data) => {
   const input = data;
+  let currentlyInfected;
   if (input.periodType === 'months') {
     input.timeToElapse *= 30;
   }
