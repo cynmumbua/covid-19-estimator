@@ -19,13 +19,13 @@ const covid19ImpactEstimator = (data) => {
   let periodType;
   if (periodType === 'days') {
     input.timeToElapse *= 7;
-    return estimatorF();
+    return estimatorF(data);
   }
   if (periodType === 'months') {
     input.timeToElapse *= 30;
-    return estimatorF();
+    return estimatorF(data);
   }
-  return estimatorF();
+  return estimatorF(data);
 };
 
 export default covid19ImpactEstimator;
