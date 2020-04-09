@@ -9,16 +9,28 @@ const estimatorF = (data) => {
   severeImpact.currentlyInfected = svi;
   severeImpact.infectionsByRequestedTime = svi * (2 ** Math.floor((input.timeToElapse / 3)));
 
-  const bedAvailability = Math.floor(input.totalHospitalBeds * 0.35);
+  const bedAvailability = input.totalHospitalBeds * 0.35;
+  const iInfectionsBRT = impact.infectionsByRequestedTime;
+  const siInfectionsBRT = severeImpact.infectionsByRequestedTime;
 
-  impact.severeCasesByRequestedTime = Math.floor(impact.infectionsByRequestedTime * 0.15);
+  impact.severeCasesByRequestedTime = iInfectionsBRT * 0.15;
   const irbt = impact.severeCasesByRequestedTime;
-  impact.hospitalBedsByRequestedTime = Math.floor(bedAvailability - irbt);
+  impact.hospitalBedsByRequestedTime = bedAvailability - irbt;
 
-  const severeCasesComputation = Math.floor(severeImpact.infectionsByRequestedTime * 0.15);
-  severeImpact.severeCasesByRequestedTime = severeCasesComputation;
+  severeImpact.severeCasesByRequestedTime = siInfectionsBRT * 0.15;
   const sibrt = severeImpact.severeCasesByRequestedTime;
-  severeImpact.hospitalBedsByRequestedTime = Math.floor(bedAvailability - sibrt);
+  severeImpact.hospitalBedsByRequestedTime = bedAvailability - sibrt;
+
+  impact.casesForICUByRequestedTime = Math.floor(iInfectionsBRT * 0.05);
+  severeImpact.casesForICUByRequestedTime = Math.floor(siInfectionsBRT * 0.05);
+
+  impact.casesForVentilatorsByRequestedTime = Math.floor(iInfectionsBRT * 0.02);
+  severeImpact.casesForVentilatorsByRequestedTime = Math.floor(siInfectionsBRT * 0.02);
+
+  impact.dollarsInFlight = (iInfectionsBRT * input.region.avgDailyIncomePopulation)
+   * input.region.avgDailyIncomeInUSD * input.timeToElapse;
+  severeImpact.dollarsInFlight = (siInfectionsBRT * input.region.avgDailyIncomePopulation)
+   * input.region.avgDailyIncomeInUSD * input.timeToElapse;
   return {
     data,
     impact,
