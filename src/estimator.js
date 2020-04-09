@@ -9,16 +9,16 @@ const estimatorF = (data) => {
   severeImpact.currentlyInfected = svi;
   severeImpact.infectionsByRequestedTime = svi * (2 ** Math.floor((input.timeToElapse / 3)));
 
-  const bedAvailability = Math.floor(input.totalHospitalBeds * 0.35);
+  const bedAvailability = input.totalHospitalBeds * 0.35;
 
   impact.severeCasesByRequestedTime = Math.floor(impact.infectionsByRequestedTime * 0.15);
   const irbt = impact.severeCasesByRequestedTime;
-  impact.hospitalBedsByRequestedTime = bedAvailability - irbt;
+  impact.hospitalBedsByRequestedTime = Math.floor(bedAvailability - irbt);
 
   const severeCasesComputation = Math.floor(severeImpact.infectionsByRequestedTime * 0.15);
   severeImpact.severeCasesByRequestedTime = severeCasesComputation;
   const sibrt = severeImpact.severeCasesByRequestedTime;
-  severeImpact.hospitalBedsByRequestedTime = bedAvailability - sibrt;
+  severeImpact.hospitalBedsByRequestedTime = Math.floor(bedAvailability - sibrt);
   return {
     data,
     impact,
