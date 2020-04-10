@@ -27,10 +27,10 @@ const estimatorF = (data) => {
   impact.casesForVentilatorsByRequestedTime = iInfectionsBRT * 0.02;
   severeImpact.casesForVentilatorsByRequestedTime = siInfectionsBRT * 0.02;
 
-  impact.dollarsInFlight = Math.trunc(iInfectionsBRT * input.region.avgDailyIncomePopulation
-     * input.region.avgDailyIncomeInUSD) / input.timeToElapse;
-  severeImpact.dollarsInFlight = Math.trunc(siInfectionsBRT * input.region.avgDailyIncomePopulation
-     * input.region.avgDailyIncomeInUSD) / input.timeToElapse;
+  impact.dollarsInFlight = Math.trunc((iInfectionsBRT * input.region.avgDailyIncomePopulation
+     * input.region.avgDailyIncomeInUSD) / input.timeToElapse);
+  severeImpact.dollarsInFlight = Math.trunc((siInfectionsBRT * input.region.avgDailyIncomePopulation
+     * input.region.avgDailyIncomeInUSD) / input.timeToElapse);
   return {
     data,
     impact,
