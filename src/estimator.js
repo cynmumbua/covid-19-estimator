@@ -1,4 +1,4 @@
-const estimatorF = require('./estimatorFunction');
+import estimatorF from './estimatorFunction';
 
 const covid19ImpactEstimator = (data) => {
   const input = data;
