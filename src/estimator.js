@@ -4,10 +4,10 @@ const estimatorF = (data) => {
   const severeImpact = {};
   const ici = input.reportedCases * 10;
   impact.currentlyInfected = ici;
-  impact.infectionsByRequestedTime = ici * (2 ** Math.floor((input.timeToElapse / 3)));
+  impact.infectionsByRequestedTime = ici * (2 ** Math.trunc((input.timeToElapse / 3)));
   const svi = input.reportedCases * 50;
   severeImpact.currentlyInfected = svi;
-  severeImpact.infectionsByRequestedTime = svi * (2 ** Math.floor((input.timeToElapse / 3)));
+  severeImpact.infectionsByRequestedTime = svi * (2 ** Math.trunc((input.timeToElapse / 3)));
 
   const bedAvailability = input.totalHospitalBeds * 0.35;
   const iInfectionsBRT = impact.infectionsByRequestedTime;
@@ -21,16 +21,16 @@ const estimatorF = (data) => {
   const sibrt = severeImpact.severeCasesByRequestedTime;
   severeImpact.hospitalBedsByRequestedTime = Math.trunc(bedAvailability - sibrt);
 
-  impact.casesForICUByRequestedTime = Math.floor(iInfectionsBRT * 0.05);
-  severeImpact.casesForICUByRequestedTime = Math.floor(siInfectionsBRT * 0.05);
+  impact.casesForICUByRequestedTime = iInfectionsBRT * 0.05;
+  severeImpact.casesForICUByRequestedTime = siInfectionsBRT * 0.05;
 
-  impact.casesForVentilatorsByRequestedTime = Math.floor(iInfectionsBRT * 0.02);
-  severeImpact.casesForVentilatorsByRequestedTime = Math.floor(siInfectionsBRT * 0.02);
+  impact.casesForVentilatorsByRequestedTime = iInfectionsBRT * 0.02;
+  severeImpact.casesForVentilatorsByRequestedTime = siInfectionsBRT * 0.02;
 
-  impact.dollarsInFlight = (iInfectionsBRT * input.region.avgDailyIncomePopulation)
-   * input.region.avgDailyIncomeInUSD * input.timeToElapse;
-  severeImpact.dollarsInFlight = (siInfectionsBRT * input.region.avgDailyIncomePopulation)
-   * input.region.avgDailyIncomeInUSD * input.timeToElapse;
+  impact.dollarsInFlight = Math.trunc(iInfectionsBRT * input.region.avgDailyIncomePopulation
+     * input.region.avgDailyIncomeInUSD) / input.timeToElapse;
+  severeImpact.dollarsInFlight = Math.trunc(siInfectionsBRT * input.region.avgDailyIncomePopulation
+     * input.region.avgDailyIncomeInUSD) / input.timeToElapse;
   return {
     data,
     impact,
