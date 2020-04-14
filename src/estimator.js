@@ -18,9 +18,9 @@ mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.url, {
   useNewUrlParser: true
 }).then(() => {
-  console.log('Successfully connected to the database');
-}).catch((err) => {
-  console.log('Could not connect to the database.', err);
+  // console.log('Successfully connected to the database');
+}).catch(() => {
+  // console.log('Could not connect to the database.', err);
   process.exit();
 });
 // define a root/default route
@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/on-covid-19', estimatoRoute);
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port);
 
 const covid19ImpactEstimator = (data) => {
   const input = data;

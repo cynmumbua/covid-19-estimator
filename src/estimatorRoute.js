@@ -13,8 +13,8 @@ router.get('/', (req, res) => {
 router.post('/', estimatorFun.create);
 
 router.use((req, res, next) => {
-  let { path } = req;
-  if ((path = '/xml')) {
+  const { path } = req;
+  if (path === '/xml') {
     res.set('Content-Type', 'text/xml');
   }
   next();
@@ -22,8 +22,8 @@ router.use((req, res, next) => {
 router.post('/xml', estimatorFun.create);
 
 router.use((req, res, next) => {
-  let { path } = req;
-  if ((path = '/json')) {
+  const { path } = req;
+  if (path === '/json') {
     res.set('Content-Type', 'application/json');
   }
   next();
