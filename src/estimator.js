@@ -17,12 +17,13 @@ mongoose.Promise = global.Promise;
 // Connecting to the database
 mongoose.connect(dbConfig.url, {
   useNewUrlParser: true
-}).then(() => {
-  // console.log('Successfully connected to the database');
-}).catch(() => {
-  // console.log('Could not connect to the database.', err);
-  // process.exit();
-});
+})
+// .then(() => {
+//   // console.log('Successfully connected to the database');
+// }).catch(() => {
+//   // console.log('Could not connect to the database.', err);
+//   // process.exit();
+// });
 // define a root/default route
 app.get('/', (req, res) => {
   res.json({ message: 'Hello World' });
