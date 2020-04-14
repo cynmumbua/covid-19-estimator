@@ -21,7 +21,7 @@ mongoose.connect(dbConfig.url, {
   // console.log('Successfully connected to the database');
 }).catch(() => {
   // console.log('Could not connect to the database.', err);
-  process.exit();
+  // process.exit();
 });
 // define a root/default route
 app.get('/', (req, res) => {
