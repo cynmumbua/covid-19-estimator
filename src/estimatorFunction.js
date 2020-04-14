@@ -1,8 +1,16 @@
+import Estimator from './estimatorModel';
+// import covid19ImpactEstimator from './estimator';
 
 const estimatorF = (data) => {
   const input = data;
   const impact = {};
   const severeImpact = {};
+  if (input.periodType === 'weeks') {
+    input.timeToElapse *= 7;
+  }
+  if (input.periodType === 'months') {
+    input.timeToElapse *= 30;
+  }
   const ici = input.reportedCases * 10;
   impact.currentlyInfected = ici;
   impact.infectionsByRequestedTime = ici * (2 ** Math.trunc((input.timeToElapse / 3)));
@@ -37,6 +45,34 @@ const estimatorF = (data) => {
     impact,
     severeImpact
   };
+};
+
+exports.create = (req, res) => {
+  const estimator = new Estimator({
+    region: ({
+      name: req.body.region.name,
+      avgAge: req.body.region.avgAge,
+      avgDailyIncomeInUSD: req.body.region.avgDailyIncomeInUSD,
+      avgDailyIncomePopulation: req.body.region.avgDailyIncomePopulation
+    }),
+    periodType: req.body.periodType,
+    timeToElapse: req.body.timeToElapse,
+    reportedCases: req.body.reportedCases,
+    population: req.body.population,
+    totalHospitalBeds: req.body.totalHospitalBeds
+  });
+
+  estimator.save()
+    .then((data) => {
+      res.send({
+        message: 'The estimations',
+        data: estimatorF(data)
+      });
+    }).catch((err) => {
+      res.status(500).send({
+        message: err.message || 'Something went wrong while estimating.'
+      });
+    });
 };
 
 export default (estimatorF);
